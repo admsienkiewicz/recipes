@@ -17,6 +17,8 @@ const getRecipieByName = async (name) => {
 };
 
 const searchByName = async () => {
+    
+  resultsDiv.textContent = "";
   const result = await getRecipieByName(searchBox.value);
   const meals = result["meals"];
   console.log(result)
@@ -43,13 +45,19 @@ const createResultDiv = async (meal, img, recipe) => {
   const flipInner = document.createElement("div");
   const top = document.createElement("div");
   const bottom = document.createElement("div");
+  const backButtonDiv = document.createElement("div");
+  const backButton = document.createElement("button");
+  const backIcon = document.createElement("i");
+  const recipeDiv = document.createElement("div");
 
   flipInner.classList.add("flip-card-inner");
   top.classList.add("top");
   bottom.classList.add("bottom");
   resultDiv.classList.add("col-lg-4", "col-md-6", "col-sm-12", "result");
   mealCard.classList.add("meal-card");
-  bottom.textContent = recipe;
+  backButton.classList.add("back-button");
+  backIcon.classList.add("fas", "fa-arrow-left");
+
 
   nameDiv.classList.add("meal-name");
   mealName.textContent = meal;
@@ -58,6 +66,7 @@ const createResultDiv = async (meal, img, recipe) => {
   buttonDiv.classList.add("recipe-button-box");
   recipeButton.classList.add("btn", "btn-secondary");
   recipeButton.textContent = "View recipe";
+  recipeDiv.textContent = recipe;
 
   nameDiv.append(mealName);
   imgDiv.append(mealImg);
@@ -65,6 +74,10 @@ const createResultDiv = async (meal, img, recipe) => {
   top.append(nameDiv);
   top.append(imgDiv);
   top.append(buttonDiv);
+  backButton.appendChild(backIcon);
+  backButtonDiv.append(backButton);
+  bottom.append(backButtonDiv);
+  bottom.append(recipeDiv);
   mealCard.append(flipInner);
   flipInner.append(top);
   flipInner.append(bottom);
@@ -73,5 +86,9 @@ const createResultDiv = async (meal, img, recipe) => {
 
   recipeButton.addEventListener("click", () => {
       mealCard.classList.add("meal-card-flip")
+  })
+
+  backButton.addEventListener("click", () => {
+      mealCard.classList.remove("meal-card-flip")
   })
 };
